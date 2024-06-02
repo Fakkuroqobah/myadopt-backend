@@ -28,10 +28,11 @@ $query = sprintf("INSERT INTO pengguna (nama, jenis_kelamin, alamat, no_telepon,
 );
 
 if (mysqli_query($conn, $query)) {
+    http_response_code(200);
     echo json_encode(['message' => 'success']);
 } else {
+    http_response_code(500);
     echo json_encode(['message' => 'error']);
 }
-var_dump(mysqli_error($conn));
 
 mysqli_close($conn);
