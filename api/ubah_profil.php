@@ -1,9 +1,5 @@
 <?php
 
-// $file = fopen("log".date('Y_m_d').".txt","a+");
-// fwrite($file,PHP_EOL ."masuk nih : " . date('Y-m-d H:i:s') . ' ' . implode(' ', $_FILES['foto']) . PHP_EOL);
-// fclose($file);
-
 $conn = connect();
 
 $id = $_POST['id'];
@@ -13,14 +9,13 @@ $alamat = $_POST['alamat'];
 $noTelepon = $_POST['no_telepon'];
 $foto = $_FILES['foto'];
 
-$uploadDir = 'profil/';
 $originalFilename = pathinfo($foto['name'], PATHINFO_FILENAME);
 $extension = pathinfo($foto['name'], PATHINFO_EXTENSION);
 $uniqueFilename = $originalFilename . '_' . time() . '.' . $extension;
-$uploadFile = $uploadDir . $uniqueFilename;
+$uploadFile = $uniqueFilename;
 
 if($extension != 'unknown') {
-    if (!move_uploaded_file($foto['tmp_name'], $uploadFile)) {
+    if (!move_uploaded_file($foto['tmp_name'], '../profil/' . $uploadFile)) {
         http_response_code(500);
         echo json_encode(['error' => 'Failed to upload file']);
         exit;

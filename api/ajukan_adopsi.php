@@ -1,24 +1,22 @@
 <?php
-$data = json_decode(file_get_contents('php://input'), true);
 
-$id_pengguna = $data['id_pengguna'];
-$id_hewan = $data['id_hewan'];
-$pekerjaan = $data['pekerjaan'];
-$hobi = $data['hobi'];
-$alamat = $data['alamat'];
-$penghasilan = $data['penghasilan'];
-$alasan = $data['alasan']; 
+$id_pengguna = $_POST['id_pengguna'];
+$id_hewan = $_POST['id_hewan'];
+$pekerjaan = $_POST['pekerjaan'];
+$hobi = $_POST['hobi'];
+$alamat = $_POST['alamat'];
+$penghasilan = $_POST['penghasilan'];
+$alasan = $_POST['alasan']; 
 $ktp = $_FILES['ktp'];
 
-$uploadDir = 'ktp/';
 $originalFilename = pathinfo($ktp['name'], PATHINFO_FILENAME);
 $extension = pathinfo($ktp['name'], PATHINFO_EXTENSION);
 $uniqueFilename = $originalFilename . '_' . time() . '.' . $extension;
-$uploadFile = $uploadDir . $uniqueFilename;
+$uploadFile = $uniqueFilename;
 
 $conn = connect();
 
-if (!move_uploaded_file($ktp['tmp_name'], $uploadFile)) {
+if (!move_uploaded_file($ktp['tmp_name'], "../ktp/" . $uploadFile)) {
     http_response_code(500);
     echo json_encode(['error' => 'Failed to upload file']);
     exit;
