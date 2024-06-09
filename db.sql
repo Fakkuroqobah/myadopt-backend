@@ -26,8 +26,12 @@ CREATE TABLE adopsi (
     id_pengguna INT NOT NULL,
     id_hewan INT NOT NULL,
     pekerjaan VARCHAR(255) NOT NULL,
+    hobi VARCHAR(255) NOT NULL,
+    ktp VARCHAR(255) NOT NULL,
+    alamat TEXT NOT NULL,
+    penghasilan ENUM("<= 500 Ribu", "<= 2 Juta", "<= 5 Juta", "<= 10 Juta", "> 10 Juta") NOT NULL,
     alasan TEXT NOT NULL,
-    status VARCHAR(50) DEFAULT 'menunggu',
+    status ENUM("menunggu", "disetujui", "ditolak") DEFAULT 'menunggu',
     FOREIGN KEY (id_pengguna) REFERENCES pengguna(id),
     FOREIGN KEY (id_hewan) REFERENCES hewan(id)
 );
@@ -49,9 +53,9 @@ INSERT INTO hewan (nama, jenis, ras, umur, gender, berat, foto, keterangan) VALU
 ('Luna', 'Kucing', 'Siam', 2, 'Jantan', 3, 'luna.png', 'Kucing Siam yang elegan dan pintar.');
 
 -- Data dummy untuk tabel 'adopsi'
-INSERT INTO adopsi (id_pengguna, id_hewan, pekerjaan, alasan, status) VALUES
-(1, 1, 'Dokter', 'Saya ingin memberikan rumah yang penuh kasih untuk hewan peliharaan.', 'disetujui'),
-(2, 3, 'Guru', 'Anak-anak saya sangat menyukai kucing dan ingin memeliharanya.', 'menunggu'),
-(3, 2, 'Pengusaha', 'Anjing ini akan menjadi teman yang baik di rumah saya.', 'ditolak'),
-(4, 4, 'Mahasiswa', 'Saya mencari teman untuk menemani saya belajar.', 'disetujui'),
-(5, 5, 'Karyawan', 'Saya ingin memiliki hewan peliharaan untuk mengurangi stres.', 'menunggu');
+INSERT INTO adopsi (id_pengguna, id_hewan, pekerjaan, hobi, ktp, alamat, penghasilan, alasan, status) VALUES
+(1, 1, 'Dokter', 'Membaca', 'ktp.png', 'Bogor', '<= 10 Juta', 'Saya ingin memberikan rumah yang penuh kasih untuk hewan peliharaan.', 'disetujui'),
+(2, 3, 'Guru', 'Traveling', 'ktp.png', 'Jakarta', '<= 5 Juta', 'Anak-anak saya sangat menyukai kucing dan ingin memeliharanya.', 'menunggu'),
+(3, 2, 'Pengusaha', 'Menonton', 'ktp.png', 'Palangkaraya', '> 10 Juta', 'Anjing ini akan menjadi teman yang baik di rumah saya.', 'ditolak'),
+(4, 4, 'Mahasiswa', 'Kuliner', 'ktp.png', 'Bandung', '<= 2 Juta', 'Saya mencari teman untuk menemani saya belajar.', 'disetujui'),
+(5, 5, 'Karyawan', 'Camping', 'ktp.png', 'Bekasi', '> 10 Juta', 'Saya ingin memiliki hewan peliharaan untuk mengurangi stres.', 'menunggu');
