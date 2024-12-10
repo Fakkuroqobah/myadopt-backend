@@ -20,6 +20,9 @@ if ($method === 'POST') {
         case 'ubah_profil':
             require 'ubah_profil.php';
             break;
+        case 'donasi':
+            require 'donasi.php';
+            break;
         default:
             echo json_encode(['message' => 'Invalid action']);
     }
