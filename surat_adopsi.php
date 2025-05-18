@@ -42,10 +42,16 @@ $data = mysqli_fetch_assoc(mysqli_query($conn, $query));
 </head>
 <body>
     <div class="surat">
-        <h2 class="text-center">Surat Keterangan Persetujuan Adopsi Hewan</h2>
+        <div class="text-center">
+            <img src="icon.png" alt="logo">
+        </div>
+        <h2 class="text-center">Surat Keterangan<br>Persetujuan Adopsi Hewan</h2>
         <p>Yang bertanda tangan di bawah ini:</p>
-        <p><strong>Nama Adopter:</strong> <?= $data['nama_pengguna']; ?></p>
-        <p><strong>Alamat:</strong> <?= $data['alamat']; ?></p>
+        <p style="margin-bottom: 0"><strong>Nama Adopter:</strong> <?= $data['nama_pengguna']; ?></p>
+        <p style="margin-bottom: 0"><strong>Nama Pet:</strong> <?= $data['nama_hewan']; ?></p>
+        <p style="margin-bottom: 0"><strong>Jenis:</strong> <?= $data['jenis']; ?></p>
+        <p style="margin-bottom: 0"><strong>Ras:</strong> <?= $data['ras']; ?></p>
+        <p style="margin-bottom: 0"><strong>Alamat:</strong> <?= $data['alamat']; ?></p>
         <p>Dengan ini, adopter menyatakan bersedia dan berkomitmen penuh untuk:</p>
         <ol>
             <li>Merawat hewan dengan sebaik-baiknya, termasuk memberi makan, minum, dan tempat tinggal yang layak.</li>
@@ -54,7 +60,21 @@ $data = mysqli_fetch_assoc(mysqli_query($conn, $query));
         </ol>
         <p>Demikian surat ini dibuat pada tanggal <?= date('d-m-Y H:i'); ?> dengan penuh kesadaran tanpa paksaan dari pihak manapun.</p>
         <br>
-        <p class="text-center">(<?= $data['nama_pengguna']; ?>)</p>
+        <table border="0">
+            <tr>
+                <td>
+                    <p class="text-center">MyAdopt</p>
+                    <br>
+                    <p class="text-center">(_____________)</p>
+                </td>
+                <td style="width: 50px"></td>
+                <td>
+                    <p class="text-center">Adopter</p>
+                    <br>
+                    <p class="text-center">(<?= $data['nama_pengguna']; ?>)</p>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

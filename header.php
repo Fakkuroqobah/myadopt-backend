@@ -68,6 +68,9 @@
             <li class="nav-item">
                 <a class="nav-link <?php echo $current_page == 'pengguna.php' ? 'active' : ''; ?>" href="pengguna.php">Pengguna</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?php echo $current_page == 'donasi.php' ? 'active' : ''; ?>" href="donasi.php">Donasi</a>
+            </li>
         </ul>
     </div>
 

@@ -10,15 +10,16 @@ if (!isset($_SESSION['user'])) {
 
 $conn = connect();
 
-$query = "SELECT hewan.*, adopsi.id AS id_adopsi FROM hewan LEFT JOIN adopsi ON hewan.id = adopsi.id_hewan WHERE adopsi.id IS NULL";
+$query = "SELECT donasi.*, pengguna.username FROM donasi JOIN pengguna ON donasi.id_pengguna = pengguna.id";
 $data = mysqli_query($conn, $query);
+
 ?>
 
 <?php require 'header.php' ?>
 
  <!-- Header -->
  <nav class="navbar navbar-expand-lg navbar-light">
-    <span class="navbar-brand text-white">Kelola Data Hewan</span>
+    <span class="navbar-brand text-white">Donasi</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -33,20 +34,14 @@ $data = mysqli_query($conn, $query);
 </nav>
 
 <div class="mt-4">
-    <a href="tambah_hewan.php" class="btn btn-success mb-3">Tambah Hewan Adopsi</a>
     <table class="table table-bordered table-striped" id="table">
         <thead>
             <tr>
-                <th>No</th>
+                <th class="text-center">No</th>
+                <th>Username</th>
                 <th>Nama</th>
-                <th>Jenis</th>
-                <th>Ras</th>
-                <th>Umur</th>
-                <th>Gender</th>
-                <th>Berat</th>
-                <th>Foto</th>
-                <th>Keterangan</th>
-                <th>Aksi</th>
+                <th>Jumlah</th>
+                <th>Tanggal</th>
             </tr>
         </thead>
         <tbody>
@@ -56,21 +51,10 @@ $data = mysqli_query($conn, $query);
                     while($row = mysqli_fetch_assoc($data)) {
                         echo "<tr>
                             <td class='text-center'>{$no}</td>
+                            <td>{$row['username']}</td>
                             <td>{$row['nama']}</td>
-                            <td>{$row['jenis']}</td>
-                            <td>{$row['ras']}</td>
-                            <td>{$row['umur']} Bulan</td>
-                            <td>{$row['gender']}</td>
-                            <td>{$row['berat']} Kg</td>
-                            <td><img src='foto/{$row['foto']}' style='max-width: 150px' /></td>
-                            <td>{$row['keterangan']}</td>
-                            <td>
-                                <div style='width:120px'>
-                                <a href='web/proses/edit_hewan.php?id={$row['id']}' class='btn btn-sm btn-success'>Edit</a>
-                                <span class='mx-1'></span>
-                                <a href='web/proses/hapus_hewan.php?id={$row['id']}' class='btn btn-sm btn-danger'>Hapus</a>
-                                </div>
-                            </td>
+                            <td>{$row['jumlah']}</td>
+                            <td>{$row['tanggal']}</td>
                         </tr>";
                         $no++;
                     }

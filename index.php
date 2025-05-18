@@ -13,6 +13,12 @@ $conn = connect();
 $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'menunggu'";
 $data = mysqli_query($conn, $query);
 
+$queryAdopsi = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'disetujui'";
+$dataAdopsi = mysqli_query($conn, $queryAdopsi);
+
+$queryDitolak = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'ditolak'";
+$dataDitolak = mysqli_query($conn, $queryDitolak);
+
 ?>
 
 <?php require 'header.php' ?>
@@ -43,9 +49,20 @@ $data = mysqli_query($conn, $query);
     }
 ?>
 
-<div class="mt-4">
-    <div class="table-responsive mt-3">
-        <table class="table table-bordered table-striped">
+<ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Menunggu Persetujuan</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Telah Di Adopsi</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Pengajuan Ditolak</button>
+    </li>
+</ul>
+<div class="tab-content pt-3" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <table class="table table-bordered table-striped" id="table">
             <thead>
                 <tr>
                     <th>No</th>
@@ -76,17 +93,93 @@ $data = mysqli_query($conn, $query);
                                 <td>{$row['penghasilan']}</td>
                                 <td>{$row['alasan']}</td>
                                 <td>
-                                    <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=disetujui' class='btn btn-sm btn-success'>Setujui</a>
-                                    <span class='mx-1'></span>
-                                    <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=ditolak' class='btn btn-sm btn-danger'>Tolak</a>
-                                    <span class='mx-1'></span>
-                                    <a href='web/proses/print_surat.php?id={$row['id']}' class='btn btn-sm btn-secondary'>Print</a>
+                                    <div style='width: 200px'>
+                                        <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=disetujui' class='btn btn-sm btn-success'>Setujui</a>
+                                        <span class='mx-1'></span>
+                                        <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=ditolak' class='btn btn-sm btn-danger'>Tolak</a>
+                                        <span class='mx-1'></span>
+                                        <a href='web/proses/print_surat.php?id={$row['id']}' class='btn btn-sm btn-secondary'>Print</a>
+                                    </div>
                                 </td>
                             </tr>";
                             $no++;
                         }
-                    } else {
-                        echo "<tr><td colspan='10' class='text-center'>Tidak ada data</td></tr>";
+                    }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <table class="table table-bordered table-striped" id="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Pengguna</th>
+                    <th>Hewan</th>
+                    <th>Pekerjaan</th>
+                    <th>Hobi</th>
+                    <th>KTP</th>
+                    <th>Alamat</th>
+                    <th>Penghasilan</th>
+                    <th>Alasan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    if (mysqli_num_rows($dataAdopsi) > 0) {
+                        $no = 1;
+                        while($rowAdopsi = mysqli_fetch_assoc($dataAdopsi)) {
+                            echo "<tr>
+                                <td>{$no}</td>
+                                <td>{$rowAdopsi['nama_pengguna']}</td>
+                                <td>{$rowAdopsi['nama_hewan']}</td>
+                                <td>{$rowAdopsi['pekerjaan']}</td>
+                                <td>{$rowAdopsi['hobi']}</td>
+                                <td><a href='ktp/{$rowAdopsi['ktp']}' target='__BLANK'>Lihat</a></td>
+                                <td>{$rowAdopsi['alamat']}</td>
+                                <td>{$rowAdopsi['penghasilan']}</td>
+                                <td>{$rowAdopsi['alasan']}</td>
+                            </tr>";
+                            $no++;
+                        }
+                    }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <table class="table table-bordered table-striped" id="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Pengguna</th>
+                    <th>Hewan</th>
+                    <th>Pekerjaan</th>
+                    <th>Hobi</th>
+                    <th>KTP</th>
+                    <th>Alamat</th>
+                    <th>Penghasilan</th>
+                    <th>Alasan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    if (mysqli_num_rows($dataDitolak) > 0) {
+                        $no = 1;
+                        while($rowDitolak = mysqli_fetch_assoc($dataDitolak)) {
+                            echo "<tr>
+                                <td>{$no}</td>
+                                <td>{$rowDitolak['nama_pengguna']}</td>
+                                <td>{$rowDitolak['nama_hewan']}</td>
+                                <td>{$rowDitolak['pekerjaan']}</td>
+                                <td>{$rowDitolak['hobi']}</td>
+                                <td><a href='ktp/{$rowDitolak['ktp']}' target='__BLANK'>Lihat</a></td>
+                                <td>{$rowDitolak['alamat']}</td>
+                                <td>{$rowDitolak['penghasilan']}</td>
+                                <td>{$rowDitolak['alasan']}</td>
+                            </tr>";
+                            $no++;
+                        }
                     }
                 ?>
             </tbody>

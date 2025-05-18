@@ -7,7 +7,10 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap4.js"></script>
     <script>
-        new DataTable('#table-hewan');
+        $(document).ready(function() {
+            new DataTable('#table');
+            new bootstrap.Tab('#myTab')
+        });
     </script>
 </body>
 </html>
