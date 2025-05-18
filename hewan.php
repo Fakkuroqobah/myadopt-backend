@@ -10,7 +10,14 @@ if (!isset($_SESSION['user'])) {
 
 $conn = connect();
 
-$query = "SELECT hewan.*, adopsi.id AS id_adopsi FROM hewan LEFT JOIN adopsi ON hewan.id = adopsi.id_hewan WHERE adopsi.id IS NULL";
+$query = "SELECT * 
+    FROM hewan 
+    WHERE NOT EXISTS (
+    SELECT 1 
+    FROM adopsi 
+    WHERE adopsi.id_hewan = hewan.id 
+        AND adopsi.status = 'disetujui'
+    )";
 $data = mysqli_query($conn, $query);
 ?>
 
