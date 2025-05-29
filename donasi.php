@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 
 $conn = connect();
 
-$query = "SELECT donasi.*, pengguna.username FROM donasi JOIN pengguna ON donasi.id_pengguna = pengguna.id";
+$query = "SELECT donasi.*, pengguna.username, pengguna.nama FROM donasi JOIN pengguna ON donasi.id_pengguna = pengguna.id";
 $data = mysqli_query($conn, $query);
 
 ?>
