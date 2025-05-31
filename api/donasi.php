@@ -1,4 +1,6 @@
 <?php
+
+require_once '../db.php';
 require_once '../vendor/autoload.php'; // Pastikan path sesuai dengan lokasi library
 
 header('Content-Type: application/json');
@@ -21,7 +23,12 @@ $transactionData = [
         'order_id' => $data['order_id'],
         'gross_amount' => $data['gross_amount'],
     ],
-    'customer_details' => $data['customer_details']
+    'customer_details' => $data['customer_details'],
+    'callbacks' => [
+        'finish' => URL_SERVER . 'midtrans_success.php',
+        'unfinish' => URL_SERVER . 'midtrans_unfinish.php',
+        'error' => URL_SERVER . 'midtrans_error.php'
+    ]
 ];
 
 $curl = curl_init();
