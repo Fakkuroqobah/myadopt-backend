@@ -3,6 +3,8 @@
 require_once '../db.php';
 require_once '../vendor/autoload.php'; // Pastikan path sesuai dengan lokasi library
 
+$conn = connect();
+
 header('Content-Type: application/json');
 
 // Konfigurasi Midtrans
@@ -14,6 +16,20 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 if (!$data) {
+    echo json_encode(['error' => 'Invalid input']);
+    exit;
+}
+
+$email = str_replace("@mail.com", "", $data['customer_details']['email']);
+$query = "SELECT * FROM pengguna WHERE username = '$email' LIMIT 1 ";
+$dataDb = mysqli_query($conn, $query);
+$dataDb = mysqli_fetch_assoc($dataDb);
+
+$orderId = $data['order_id'];
+$idPengguna = $dataDb['id'];
+$query = "INSERT INTO donasi (id_midtrans, id_pengguna) VALUES ('$orderId', $idPengguna)";
+
+if (!mysqli_query($conn, $query)) {
     echo json_encode(['error' => 'Invalid input']);
     exit;
 }

@@ -33,6 +33,8 @@ $data = mysqli_query($conn, $query);
     </div>
 </nav>
 
+<a href="sync.php" class="btn btn-success mt-3">Sync Data Midtrans</a>
+
 <div class="mt-4">
     <table class="table table-bordered table-striped" id="table">
         <thead>

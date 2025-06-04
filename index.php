@@ -49,6 +49,8 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
     }
 ?>
 
+<a href="export.php" class="btn btn-success mt-3">Download Excel</a>
+
 <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Menunggu Persetujuan</button>
