@@ -85,7 +85,6 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                     <th>Hewan</th>
                     <th>Pekerjaan</th>
                     <th>Hobi</th>
-                    <th>KTP</th>
                     <th>Alamat</th>
                     <th>Penghasilan</th>
                     <th>Alasan</th>
@@ -103,7 +102,6 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                 <td>{$row['nama_hewan']}</td>
                                 <td>{$row['pekerjaan']}</td>
                                 <td>{$row['hobi']}</td>
-                                <td><a href='ktp/{$row['ktp']}' target='__BLANK'>Lihat</a></td>
                                 <td>{$row['alamat']}</td>
                                 <td>{$row['penghasilan']}</td>
                                 <td>{$row['alasan']}</td>
@@ -131,7 +129,6 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                     <th>Hewan</th>
                     <th>Pekerjaan</th>
                     <th>Hobi</th>
-                    <th>KTP</th>
                     <th>Alamat</th>
                     <th>Penghasilan</th>
                     <th>Alasan</th>
@@ -149,15 +146,12 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                 <td>{$rowAdopsi['nama_hewan']}</td>
                                 <td>{$rowAdopsi['pekerjaan']}</td>
                                 <td>{$rowAdopsi['hobi']}</td>
-                                <td><a href='ktp/{$rowAdopsi['ktp']}' target='__BLANK'>Lihat</a></td>
                                 <td>{$rowAdopsi['alamat']}</td>
                                 <td>{$rowAdopsi['penghasilan']}</td>
                                 <td>{$rowAdopsi['alasan']}</td>
                                 <td>
                                     <div style='width: 200px'>
                                         <a href='web/proses/print_surat.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-secondary'>Print</a>
-                                        <span class='mx-1'></span>
-                                        <a href='web/proses/batal.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-danger'>Batalkan</a>
                                     </div>
                                 </td>
                             </tr>";
@@ -177,10 +171,10 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                     <th>Hewan</th>
                     <th>Pekerjaan</th>
                     <th>Hobi</th>
-                    <th>KTP</th>
                     <th>Alamat</th>
                     <th>Penghasilan</th>
                     <th>Alasan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -194,10 +188,14 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                 <td>{$rowDitolak['nama_hewan']}</td>
                                 <td>{$rowDitolak['pekerjaan']}</td>
                                 <td>{$rowDitolak['hobi']}</td>
-                                <td><a href='ktp/{$rowDitolak['ktp']}' target='__BLANK'>Lihat</a></td>
                                 <td>{$rowDitolak['alamat']}</td>
                                 <td>{$rowDitolak['penghasilan']}</td>
                                 <td>{$rowDitolak['alasan']}</td>
+                                <td>
+                                    <div style='width: 200px'>
+                                        <a href='web/proses/batal.php?id={$rowDitolak['id']}' class='btn btn-sm btn-danger'>Batalkan</a>
+                                    </div>
+                                </td>
                             </tr>";
                             $no++;
                         }
