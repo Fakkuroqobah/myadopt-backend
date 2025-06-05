@@ -152,6 +152,8 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                 <td>
                                     <div style='width: 200px'>
                                         <a href='web/proses/print_surat.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-secondary'>Print</a>
+                                        <span class='mx-1'></span>
+                                        <a href='web/proses/batal.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-danger'>Batalkan</a>
                                     </div>
                                 </td>
                             </tr>";
