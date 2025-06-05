@@ -19,13 +19,18 @@ $sheet->setCellValue('A1', 'Nama Pengguna');
 $sheet->setCellValue('B1', 'Nama Hewan');
 $sheet->setCellValue('C1', 'Pekerjaan');
 $sheet->setCellValue('D1', 'Hobi');
-$sheet->setCellValue('E1', 'KTP');
-$sheet->setCellValue('F1', 'Alamat');
-$sheet->setCellValue('G1', 'Penghasilan');
-$sheet->setCellValue('H1', 'Alasan');
-$sheet->setCellValue('I1', 'Status');
+$sheet->setCellValue('E1', 'Alamat');
+$sheet->setCellValue('F1', 'Penghasilan');
+$sheet->setCellValue('G1', 'Alasan');
+$sheet->setCellValue('H1', 'Status');
 
-$query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'menunggu'";
+$mulai = $_GET['mulai'];
+$selesai = $_GET['selesai'];
+if(!empty($mulai) && !empty($selesai)) {
+    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE tanggal_pengajuan BETWEEN '$mulai' AND '$selesai' ";
+}else{
+    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna";
+}
 $data = mysqli_query($conn, $query);
 
 foreach ($data as $key => $value) {
@@ -36,29 +41,28 @@ foreach ($data as $key => $value) {
     $sheet->setCellValue('D' . $row, $value['hobi']);
 
     // Tambahkan gambar
-    $drawing = new Drawing();
-    $drawing->setName($value['nama_hewan']);
-    $drawing->setDescription('Gambar Hewan');
-    $drawing->setPath('ktp/' . $value['ktp']);
-    $drawing->setHeight(80);
-    $drawing->setCoordinates('E' . $row);
-    $drawing->setWorksheet($sheet);
+    // $drawing = new Drawing();
+    // $drawing->setName($value['nama_hewan']);
+    // $drawing->setDescription('Gambar Hewan');
+    // $drawing->setPath('ktp/' . $value['ktp']);
+    // $drawing->setHeight(80);
+    // $drawing->setCoordinates('E' . $row);
+    // $drawing->setWorksheet($sheet);
 
-    $sheet->setCellValue('F' . $row, $value['alamat']);
-    $sheet->setCellValue('G' . $row, $value['penghasilan']);
-    $sheet->setCellValue('H' . $row, $value['alasan']);
-    $sheet->setCellValue('I' . $row, $value['status']);
+    $sheet->setCellValue('E' . $row, $value['alamat']);
+    $sheet->setCellValue('F' . $row, $value['penghasilan']);
+    $sheet->setCellValue('G' . $row, $value['alasan']);
+    $sheet->setCellValue('H' . $row, $value['status']);
     
     if ($key === 0) {
         $sheet->getColumnDimension('A')->setWidth(30);
         $sheet->getColumnDimension('B')->setWidth(30);
         $sheet->getColumnDimension('C')->setWidth(30);
         $sheet->getColumnDimension('D')->setWidth(30);
-        $sheet->getColumnDimension('E')->setWidth(40);
+        $sheet->getColumnDimension('E')->setWidth(30);
         $sheet->getColumnDimension('F')->setWidth(30);
         $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(30);
-        $sheet->getColumnDimension('I')->setWidth(30);
     }
 
     $sheet->getRowDimension($row)->setRowHeight(80);
@@ -67,7 +71,7 @@ foreach ($data as $key => $value) {
 $sheet->getStyle('A2:I100')->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
 
 // Ekspor ke Excel
-$filename = 'produk_gambar.xlsx';
+$filename = 'data_adopsi.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header("Content-Disposition: attachment;filename=\"$filename\"");
 header('Cache-Control: max-age=0');

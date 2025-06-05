@@ -49,7 +49,20 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
     }
 ?>
 
-<a href="export.php" class="btn btn-success mt-3">Download Excel</a>
+<form action="">
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label>Tanggal Mulai</label>
+            <input type="date" name="tanggal_mulai" id="mulai" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label>Tanggal Selesai</label>
+            <input type="date" name="tanggal_selesai" id="selesai" class="form-control">
+        </div>
+    </div>
+</form>
+
+<button type="button" onclick="exportData()" class="btn btn-success mt-3">Download Excel</button>
 
 <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -99,8 +112,6 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                         <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=disetujui' class='btn btn-sm btn-success'>Setujui</a>
                                         <span class='mx-1'></span>
                                         <a href='web/proses/aksi_adopsi.php?id={$row['id']}&aksi=ditolak' class='btn btn-sm btn-danger'>Tolak</a>
-                                        <span class='mx-1'></span>
-                                        <a href='web/proses/print_surat.php?id={$row['id']}' class='btn btn-sm btn-secondary'>Print</a>
                                     </div>
                                 </td>
                             </tr>";
@@ -124,6 +135,7 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                     <th>Alamat</th>
                     <th>Penghasilan</th>
                     <th>Alasan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -141,6 +153,13 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
                                 <td>{$rowAdopsi['alamat']}</td>
                                 <td>{$rowAdopsi['penghasilan']}</td>
                                 <td>{$rowAdopsi['alasan']}</td>
+                                <td>
+                                    <div style='width: 200px'>
+                                        <a href='web/proses/print_surat.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-secondary'>Print</a>
+                                        <span class='mx-1'></span>
+                                        <a href='web/proses/batal.php?id={$rowAdopsi['id']}' class='btn btn-sm btn-danger'>Batalkan</a>
+                                    </div>
+                                </td>
                             </tr>";
                             $no++;
                         }
@@ -189,4 +208,11 @@ $dataDitolak = mysqli_query($conn, $queryDitolak);
     </div>
 </div>
     
+<script>
+function exportData() {
+    var mulai = document.getElementById('mulai').value;
+    var selesai = document.getElementById('selesai').value;
+    window.location.href = 'export.php?mulai=' + mulai + '&selesai=' + selesai;
+}
+</script>
 <?php require 'footer.php' ?>
