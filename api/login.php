@@ -14,7 +14,7 @@ if ($result && mysqli_num_rows($result) === 1) {
     $data = mysqli_fetch_assoc($result);
     if (password_verify($password, $data['password'])) {
         $data['id'] = intval($data['id']);
-        $data['foto'] = URL_SERVER . $data['foto'];
+        $data['foto'] = URL_SERVER . 'profil/' . $data['foto'];
         unset($data['password']);
 
         http_response_code(200);
