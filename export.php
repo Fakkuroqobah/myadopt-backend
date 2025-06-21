@@ -17,19 +17,20 @@ $sheet = $spreadsheet->getActiveSheet();
 // Tulis data
 $sheet->setCellValue('A1', 'Nama Pengguna');
 $sheet->setCellValue('B1', 'Nama Hewan');
-$sheet->setCellValue('C1', 'Pekerjaan');
-$sheet->setCellValue('D1', 'Hobi');
-$sheet->setCellValue('E1', 'Alamat');
-$sheet->setCellValue('F1', 'Penghasilan');
-$sheet->setCellValue('G1', 'Alasan');
-$sheet->setCellValue('H1', 'Status');
+$sheet->setCellValue('C1', 'Ras');
+$sheet->setCellValue('D1', 'Pekerjaan');
+$sheet->setCellValue('E1', 'Hobi');
+$sheet->setCellValue('F1', 'Alamat');
+$sheet->setCellValue('G1', 'Penghasilan');
+$sheet->setCellValue('H1', 'Alasan');
+$sheet->setCellValue('I1', 'Status');
 
 $mulai = $_GET['mulai'];
 $selesai = $_GET['selesai'];
 if(!empty($mulai) && !empty($selesai)) {
-    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE tanggal_pengajuan BETWEEN '$mulai' AND '$selesai' ";
+    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna, hewan.ras FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'disetujui' AND tanggal_pengajuan BETWEEN '$mulai' AND '$selesai' ";
 }else{
-    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna";
+    $query = "SELECT adopsi.*, hewan.nama AS nama_hewan, pengguna.nama AS nama_pengguna, hewan.ras FROM adopsi JOIN hewan ON hewan.id = adopsi.id_hewan JOIN pengguna ON pengguna.id = adopsi.id_pengguna WHERE status = 'disetujui' ";
 }
 $data = mysqli_query($conn, $query);
 
@@ -37,8 +38,9 @@ foreach ($data as $key => $value) {
     $row = $key + 2;
     $sheet->setCellValue('A' . $row, $value['nama_pengguna']);
     $sheet->setCellValue('B' . $row, $value['nama_hewan']);
-    $sheet->setCellValue('C' . $row, $value['pekerjaan']);
-    $sheet->setCellValue('D' . $row, $value['hobi']);
+    $sheet->setCellValue('C' . $row, $value['ras']);
+    $sheet->setCellValue('D' . $row, $value['pekerjaan']);
+    $sheet->setCellValue('E' . $row, $value['hobi']);
 
     // Tambahkan gambar
     // $drawing = new Drawing();
@@ -49,10 +51,10 @@ foreach ($data as $key => $value) {
     // $drawing->setCoordinates('E' . $row);
     // $drawing->setWorksheet($sheet);
 
-    $sheet->setCellValue('E' . $row, $value['alamat']);
-    $sheet->setCellValue('F' . $row, $value['penghasilan']);
-    $sheet->setCellValue('G' . $row, $value['alasan']);
-    $sheet->setCellValue('H' . $row, $value['status']);
+    $sheet->setCellValue('F' . $row, $value['alamat']);
+    $sheet->setCellValue('G' . $row, $value['penghasilan']);
+    $sheet->setCellValue('H' . $row, $value['alasan']);
+    $sheet->setCellValue('I' . $row, $value['status']);
     
     if ($key === 0) {
         $sheet->getColumnDimension('A')->setWidth(30);
@@ -63,9 +65,10 @@ foreach ($data as $key => $value) {
         $sheet->getColumnDimension('F')->setWidth(30);
         $sheet->getColumnDimension('G')->setWidth(30);
         $sheet->getColumnDimension('H')->setWidth(30);
+        $sheet->getColumnDimension('I')->setWidth(30);
     }
 
-    $sheet->getRowDimension($row)->setRowHeight(80);
+    // $sheet->getRowDimension($row)->setRowHeight(80);
 }
 
 $sheet->getStyle('A2:I100')->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
