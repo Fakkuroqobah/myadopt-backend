@@ -51,7 +51,7 @@ if (!isset($_SESSION['user'])) {
                 </div>
         
                 <div class="form-group">
-                    <label for="umur">Umur (tahun):</label><br>
+                    <label for="umur">Umur (bulan):</label><br>
                     <input class="form-control" type="number" id="umur" name="umur" min="0">
                 </div>
         

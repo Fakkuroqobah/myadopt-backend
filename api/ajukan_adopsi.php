@@ -22,7 +22,7 @@ $conn = connect();
 //     exit;
 // }
 
-$query = sprintf("INSERT INTO adopsi (id_pengguna, id_hewan, pekerjaan, hobi, alamat, penghasilan, ktp, alasan, status) VALUES (%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+$query = sprintf("INSERT INTO adopsi (id_pengguna, id_hewan, pekerjaan, hobi, alamat, penghasilan, ktp, alasan, status, tanggal_pengajuan) VALUES (%d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
     mysqli_real_escape_string($conn, $id_pengguna),
     mysqli_real_escape_string($conn, $id_hewan),
     mysqli_real_escape_string($conn, $pekerjaan),
@@ -31,7 +31,8 @@ $query = sprintf("INSERT INTO adopsi (id_pengguna, id_hewan, pekerjaan, hobi, al
     mysqli_real_escape_string($conn, $penghasilan),
     mysqli_real_escape_string($conn, 'off'),
     mysqli_real_escape_string($conn, $alasan),
-    mysqli_real_escape_string($conn, 'menunggu')
+    mysqli_real_escape_string($conn, 'menunggu'),
+    mysqli_real_escape_string($conn, date('Y-m-d'))
 );
 
 
